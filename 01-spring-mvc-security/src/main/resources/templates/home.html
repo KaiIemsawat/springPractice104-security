@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+    <h2>Company home page</h2>
+    <hr>
+    <p>Welcome to our company home page</p>
+    <hr>
+    <!-- add logout button -->
+    <form action="#" th:action="@{/logout}" method="POST">
+                                              <!-- 'POST' by default -->
+        <input type="submit" value="Logout" />
+    </form>
+</body>
+</html>
