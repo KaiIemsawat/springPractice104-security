@@ -41,7 +41,14 @@ public class DemoSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(
-                        configurer -> configurer.anyRequest().authenticated() // Any request must be authenticated
+                        configurer -> configurer
+                                // Allow those who has "EMPLOYEE" role to access"/"
+                                .requestMatchers("/").hasRole("EMPLOYEE")
+                                // Allow those who has "MANAGER" role to access"/leaders/**"
+                                .requestMatchers("/leaders/**").hasRole("MANAGER")
+                                // Allow those who has "ADMIN" role to access"/systems/**"
+                                .requestMatchers("/systems/**").hasRole("ADMIN")
+                                .anyRequest().authenticated() // Any request must be authenticated
                     )
                     .formLogin(
                             form -> form
@@ -49,7 +56,9 @@ public class DemoSecurityConfig {
                                     .loginProcessingUrl("/authenticateTheUser") // Login form should POST data to this URL for processing
                                     .permitAll() // Allow anyone to see login page
                     )
-                    .logout(logout -> logout.permitAll());
+                    .logout(logout -> logout.permitAll())
+//                    If access denied, redirect to 'access-denied' page
+                    .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"));
         return httpSecurity.build();
 //        Need to create a controller for this request mapping '/showLoginPage/' (GET)
 //        No controller request mapping required for '/authenticateTheUser'. BUT this link will be use in login_page.html
