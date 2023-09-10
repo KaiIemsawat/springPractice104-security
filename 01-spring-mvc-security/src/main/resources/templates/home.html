@@ -17,26 +17,30 @@
                     <!-- Display logged in user's names-->
         <!-- Needs xmlns:sec="http://www.thymeleaf.org/extras/spring-security" -->
         User: <span sec:authentication="principal.username"></span>
-            <br><br>
+            <br>
                     <!-- Display logged in user's role(s) -->
         Role(s): <span sec:authentication="principal.authorities"></span>
         <!-- as a default, Spring will print with prefix 'ROLE_' -> [ROLE_EMPLOYEE] -->
     </p>
     <hr>
 
-    <!-- Link to point to /leaders. For manager levels -->
-    <p>
-        <a th:href="@{/leaders}">Leadership</a>
-        <div>(Authorized only)</div>
-    </p>
-    <hr>
+    <div sec:authorize="hasRole('MANAGER')">
+        <!-- Link to point to /leaders. For manager levels -->
+        <p>
+            <a th:href="@{/leaders}">Leadership</a>
+            <div>(Authorized only)</div>
+        </p>
+        <hr>
+    </div>
 
-    <!-- Link to point to /systems. For admin levels -->
-    <p>
-        <a th:href="@{/systems}">Systems</a>
-    <div>(Authorized only)</div>
-    </p>
-    <hr>
+    <div sec:authorize="hasRole('ADMIN')">
+        <!-- Link to point to /systems. For admin levels -->
+        <p>
+            <a th:href="@{/systems}">Systems</a>
+        <div>(Authorized only)</div>
+        </p>
+        <hr>
+    </div>
 
     <!-- add logout button -->
     <form action="#" th:action="@{/logout}" method="POST">
