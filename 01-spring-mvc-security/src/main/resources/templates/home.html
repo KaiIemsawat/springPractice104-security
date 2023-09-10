@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
@@ -9,6 +11,20 @@
     <hr>
     <p>Welcome to our company home page</p>
     <hr>
+
+    <!-- Display users' names and roles   -->
+    <p>
+                    <!-- Display logged in user's names-->
+        <!-- Needs xmlns:sec="http://www.thymeleaf.org/extras/spring-security" -->
+        User: <span sec:authentication="principal.username"></span>
+            <br><br>
+                    <!-- Display logged in user's role(s) -->
+        Role(s): <span sec:authentication="principal.authorities"></span>
+        <!-- as a default, Spring will print with prefix 'ROLE_' -> [ROLE_EMPLOYEE] -->
+
+    </p>
+    <hr>
+
     <!-- add logout button -->
     <form action="#" th:action="@{/logout}" method="POST">
                                               <!-- 'POST' by default -->
